@@ -2,6 +2,7 @@
 #include <iostream>
 #include <vector>
 #include <memory>
+#include <stdexcept>
 #include "Cell.h"
 #include "Ship.h"
 
@@ -11,7 +12,19 @@ class Board
 	std::vector<std::shared_ptr<Ship>> ships;
 public:
 	Board(std::istream& in) {
-
+		createBoard(in);
+		if (!isBoardCorrect()) {
+			throw std::invalid_argument("Board is not correct");
+			
+		}
+		createShips();
 	}
+
+	enum {WATER = ' ', SHIP = '#' };
+
+private:
+	void createBoard(std::istream& in);
+	bool isBoardCorrect() const;
+	void createShips();
 };
 
